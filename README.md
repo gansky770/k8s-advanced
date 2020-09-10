@@ -9,7 +9,7 @@ INIT-LAB.
 
 2.3 Inside the container there is COMMAND "git clone $SOURCE (the SOURCE is ENV from Configmap 
 
-3 Created main Image(in the same pod kind) nginx:latest  mounte /usr/share/nginx/html to Emptydir
+3 Created main Image(in the same pod kind) nginx:latest  mount /usr/share/nginx/html to Emptydir
 
 4 Created Service that expose the app on port 80 
 
