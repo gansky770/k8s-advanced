@@ -6,8 +6,8 @@ metadata:
 spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
-    kind: Pod
-    name: myapp-pod
+    kind: Deployment
+    name: myapp-deployment
   minReplicas: 3
   maxReplicas: 10
   metrics:
@@ -15,6 +15,6 @@ spec:
     object:
       target:
         kind: Service
-        name: myapp-svc
+        name: myapp-svc-hpa
       metricName: net.http.request.count
       targetValue: 100
