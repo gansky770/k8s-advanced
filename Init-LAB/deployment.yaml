@@ -1,43 +1,41 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-deployment
-  labels:
-    app: myapp
-  spec:
-    replicas: 3
-    selector:
-      matchLabels:
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:    
+      labels:
         app: myapp
-    template:
-      metadata:    
-        labels:
-          app: myapp
-      spec:
-        containers:
+    spec:
+      containers:
       - name: myapp #main container
         image: nginx:latest 
         ports:
         - name: myapp-port
           containerPort: 80
-      volumeMounts:
-      - name: git-source  
-        mountPath: "/usr/share/nginx/html" 
+        volumeMounts:
+        - name: git-source  
+          mountPath: "/usr/share/nginx/html" 
       initContainers:
       - name: init-git # INIT container
-      image: alpine/git:latest
-       env:
+        image: alpine/git:latest
+        env:
         # Define the environment variable
         - name: SOURCE                            
           valueFrom:
             configMapKeyRef:
               name: git-source           # The ConfigMap this value comes from.
               key: git-source            # The key to fetch.
-      volumeMounts:
+        volumeMounts:
+        - name: git-source
+          mountPath: "/git-source"
+          readOnly: false        
+        command: ['sh', '-c', 'git clone $SOURCE /git-source']
+      volumes:  
       - name: git-source
-        mountPath: "/git-source"
-        readOnly: false        
-      command: ['sh', '-c', 'git clone $SOURCE /git-source']
-  volumes:  
-  - name: git-source
-    emptyDir: {}
+        emptyDir: {}

@@ -1,4 +1,4 @@
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: myapp-pod-autoscaler
@@ -15,6 +15,6 @@ spec:
     object:
       target:
         kind: Service
-        name: myapp-svc-hpa
+        name: myapp-svc
       metricName: net.http.request.count
-      targetValue: 100
+      targetValue: 5
